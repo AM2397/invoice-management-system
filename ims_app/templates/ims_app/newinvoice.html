@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% extends "ims_app/base.html"%} {% block content%}
+<div class="container">
+  <div class="col-md-6 offset-md-4 mt-1 mr-3 p-3 mb-5">
+    <div class="login-box">
+      <!-- 
+        <br>/.login-logo -->
+      <br><br><br><br>
+      <div class="card card-dark">
+        <div class="card-header">
+          <h3 class="card-title">New Invoice</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form action="{% url 'loadinvoice' %}" method="POST" autocomplete="off" enctype="multipart/form-data" id="newinvoiceform">
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="form-group">
+              <label for="inv_invoice_num">Invoice Number</label>
+              <input type="text" class="form-control" name="inv_invoice_num" maxlength="10"/>
+            </div>
+            <div class="form-group">
+              <label for="inv_vendor_name">Vendor Name</label>
+              <input type="text" class="form-control" name="inv_vendor_name"/>
+            </div>
+            <div class="form-group">
+              <label for="inv_invoice_date" hidden>Invoice Date</label>
+              <input type="date" class="form-control" name="inv_invoice_date" value="{{inv_invoice_date}}" disabled hidden/>
+            </div>
+            <br>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" name="inv_invoice_file" required>
+              <label class="custom-file-label" for="inv_invoice_file">Select Invoice File</label>
+            </div>
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="reset" class="btn btn-dark float-left" onclick="reset($('#inv_invoice_file'))">Reset Form</button>
+            <button type="submit" class="btn btn-success float-right">Submit</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.card -->
+      <!-- /.login-card-body -->
+    </div>
+    <!-- /.login-box -->
+  </div>
+</div>
+<script> 
+$.validator.addMethod('filesize', function (value, element, param) {
+    return this.optional(element) || (element.files[0].size <= param)
+}, 'File size must be less than {0}');
+
+jQuery(function ($) {
+    $('#newinvoiceform').validate({
+        rules: {
+                inv_invoice_file: {
+                required: true,
+                extension: "pdf",
+                filesize: 2,
+            }
+        },
+    });
+});
+</script> 
+{% endblock content%}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% extends "ims_app/base.html"%} {% block content%}
+    <div class="col-md-5" style="width: 200%; float:left">
+        <embed src="{{inv_details.inv_invoice_file.url}}" type="application/pdf" width="100%" height="600px"/>
+     </div>
+     <div class="col-md-7" style="width: 100%; float:right">
+        <div class="row" width="100%" height="600px">
+            <div class="login-box col-md-12">
+                <br><br><br><br>
+                <div class="card card-dark">
+                  <div class="card-header">
+                    <h3 class="card-title">Fill Invoice Details</h3>
+                  </div>
+                  <form action="{% url 'saveindetails' %}" method="POST" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <div class="form-group">
+                                <label for="itx_inv_num">Invoice Number</label>
+                                <input type="text" class="form-control" name="itx_inv_num" placeholder="{{inv_details.inv_invoice_num}}" value="{{inv_details.inv_invoice_num}}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" id="items">
+                        <table>
+                            <thead>
+                              <tr>
+                                <th>Item Description</th>
+                                <th>Item Quantity</th>
+                                <th>Item Rate</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td width="500">
+                                        <input type="text" class="form-control" name="itx_item_desc[]"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="itx_item_quantity[]"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="itx_item_rate[]"/>
+                                    </td>
+                              </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="ml-4 mb-4">
+                        <button type="submit" id="add" class="btn-dark">Add Item</button>
+                    </div>
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-dark float-right">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+                  </div>
+        </div>
+{% endblock content%}
